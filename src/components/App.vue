@@ -1,5 +1,13 @@
 <template>
     <div>
+      <div id="header">
+        <div>
+          <h1>VueJs Calendar</h1>
+        </div>
+        <div>
+          <current-month></current-month>
+        </div>
+      </div>
         <div id="day-bar">
             <div>MON</div>
             <div>TUE</div>
@@ -15,20 +23,23 @@
                 </calendar-day>
             </div>
         </div>
+        <event-form></event-form>
     </div>
-    
+
 </template>
 
 <script>
-import CalendarDay from './CalendarDay.vue'
+import CalendarDay from "./CalendarDay.vue";
+import CurrentMonth from "./CurrentMonth.vue";
+import EventForm from "./EventForm.vue";
 export default {
-  data() {
-    return {
-      month: 9,
-      year: 2018
-    };
-  },
   computed: {
+    month() {
+      return this.$store.state.currentMonth;
+    },
+    year() {
+      return this.$store.state.currentYear;
+    },
     days() {
       let days = [];
       let SUNDAY = 0;
@@ -74,8 +85,10 @@ export default {
       return weeks;
     }
   },
-  components:{
-      CalendarDay
+  components: {
+    CalendarDay,
+    CurrentMonth,
+    EventForm
   }
 };
 </script>
