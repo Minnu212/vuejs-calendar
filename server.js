@@ -7,12 +7,18 @@ const app = express();
 const path = require('path');
 const fs = require('fs');
 const http = require('http');
-
+const moment = require('moment-timezone')
+moment.tz.setDefault('IST')
+const serialize = require('serialize-javascript')
+let events = [{
+  description: 'heloo',
+  date: moment('2018-09-17', 'YYYY-MM-DD')
+}]
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   let template = fs.readFileSync(path.resolve('./index.html'), 'utf-8');
-  res.send(template);
-
+  let contentMarker = '<!-- App -->'
+  res.send(template.replace(contentMarker), `<script> var __INITIAL_STATE__=${serialize(events)} </script>`)
 });
 app.use(require('body-parser').json())
 app.post('/add_event', (req, res) => {
@@ -21,7 +27,6 @@ app.post('/add_event', (req, res) => {
   res.sendStatus(200)
 })
 
-let events = []
 
 const server = http.createServer(app);
 

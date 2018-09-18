@@ -12,6 +12,17 @@ Object.defineProperty(Vue.prototype,
         }
     })
 
+let events = window.__INITIAL_STATE__.map(event => {
+    return {
+        discription: event.discription,
+        date: momonet(event.date)
+    }
+})
+let initialState = Object.assign({}, store.state, {
+    events
+})
+store.replaceState(initialState)
+
 new Vue({
     el: '#app',
     data: {
